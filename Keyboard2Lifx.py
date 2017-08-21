@@ -7,6 +7,7 @@ except ImportError:
 import Tkinter
 import lifxlan
 import traceback
+import sys
 
 class Keycode2Lifx:
     def __init__(self):
@@ -93,16 +94,21 @@ if pygame is not None:
             self.keycode2lifx = Keycode2Lifx()
             pygame.init()
             pygame.display.set_mode((300, 200))
+            self.running = False
         def run(self):
             """Listen to keys and send them to all lifx bulbs"""
-            while True:
-                for event in pygame.event.get():
-                    if event.type == pygame.QUIT:
-                        sys.exit()
-                    if event.type == pygame.KEYDOWN:
-                        key_name = pygame.key.name(event.key).lower()
-                        self.keycode2lifx.do(key_name)
-
+            self.running = True
+            try:
+                while self.running:
+                    for event in pygame.event.get():
+                        if event.type == pygame.QUIT:
+                            self.running = False
+                        if event.type == pygame.KEYDOWN:
+                            key_name = pygame.key.name(event.key).lower()
+                            self.keycode2lifx.do(key_name)
+                pygame.quit()
+            except SystemExit:
+                pygame.quit()
 if __name__== '__main__':
     #Prefare 
     try:
