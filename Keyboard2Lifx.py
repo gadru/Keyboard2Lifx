@@ -1,8 +1,9 @@
+from __future__ import print_function
+
 try:
     import pygame
 except ImportError:
     pygame = None
-
 
 import Tkinter
 import lifxlan
@@ -11,10 +12,10 @@ import sys
 
 class Keycode2Lifx:
     def __init__(self):
-        print "connecting to lifx..."
+        print("connecting to lifx...")
         self.lifx = lifxlan.LifxLAN()
         self.num_of_lights = len(self.lifx.get_lights())
-        print "Found {} light(s).\n".format(self.num_of_lights)
+        print("Found {} light(s).\n".format(self.num_of_lights))
         #Define colro friendly names.
         self.colors = {
             "red"       : lifxlan.RED           ,
@@ -46,7 +47,7 @@ class Keycode2Lifx:
         try:
             color_name = self.keymap[key_name]
         except KeyError:
-            print "Key '%s' is not mapped."%key_name
+            print("Key '%s' is not mapped."%key_name)
         color = self.colors.get(color_name)
         return color,color_name
     
@@ -60,7 +61,7 @@ class Keycode2Lifx:
     def alert(self,color_name):
         """Alert the user that the change has been performed."""
         plural_s = "" if self.num_of_lights==1 else "s"
-        print "%d bulb%s set to %s."%(self.num_of_lights,plural_s, str(color_name))
+        print("%d bulb%s set to %s."%(self.num_of_lights,plural_s, str(color_name)))
 
     def do(self,keycode):
         """Send the keycode to lifx"""
@@ -114,6 +115,6 @@ if __name__== '__main__':
     try:
         Keyboard2Lifx = Pygame2Lifx
     except:
-        print """Couldn't find pygame ,only alphanumeric(a-z,A-Z,0-9) buttons will be supported."""
+        print("""Couldn't find pygame ,only alphanumeric(a-z,A-Z,0-9) buttons will be supported.""")
         Keyboard2Lifx = Tkinter2Lifx
     Keyboard2Lifx().run()
