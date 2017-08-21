@@ -1,4 +1,9 @@
-import pygame
+try:
+    import pygame
+except ImportError:
+    pygame = None
+pygame = None
+
 import Tkinter
 import lifxlan
 import traceback
@@ -62,22 +67,7 @@ class Keycode2Lifx:
         if (color is not None):
             result = self.set_color(color)
             self.alert(color_name)
-
-class Pygame2Lifx:
-    def __init__(self):
-        self.keycode2lifx = Keycode2Lifx()
-        pygame.init()
-        pygame.display.set_mode((100, 100))
-    def run(self):
-        """Listen to keys and send them to all lifx bulbs"""
-        while True:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    sys.exit()
-                if event.type == pygame.KEYDOWN:
-                    key_name = pygame.key.name(event.key)
-                    self.keycode2lifx.do(key_name)
-
+            
 class Tkinter2Lifx:
     def __init__(self):
         self.keycode2lifx = Keycode2Lifx()
@@ -89,12 +79,35 @@ class Tkinter2Lifx:
         self.text = Tkinter.Text(self.root, background='black')
         self.text.pack()
 
-    def onKeyPress(self, event):
+    def _onKeyPress(self, event):
         self.keycode2lifx.do(event.char.lower())
 
     def run(self):
-        self.root.bind('<KeyPress>', self.onKeyPress)        
+        """Listen to keys and send them to all lifx bulbs"""
+        self.root.bind('<KeyPress>', self._onKeyPress)        
         self.root.mainloop()
+        
+if pygame is not None:
+    class Pygame2Lifx:
+        def __init__(self):
+            self.keycode2lifx = Keycode2Lifx()
+            pygame.init()
+            pygame.display.set_mode((100, 100))
+        def run(self):
+            """Listen to keys and send them to all lifx bulbs"""
+            while True:
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        sys.exit()
+                    if event.type == pygame.KEYDOWN:
+                        key_name = pygame.key.name(event.key).lower()
+                        self.keycode2lifx.do(key_name)
 
 if __name__== '__main__':
-    Tkinter2Lifx().run()
+    #Prefare 
+    try:
+        Keyboard2Lifx = Pygame2Lifx
+    except:
+        print """Couldn't find pygame ,only alphanumeric(a-z,A-Z,0-9) buttons will be supported."""
+        Keyboard2Lifx = Tkinter2Lifx
+    Keyboard2Lifx().run()
