@@ -2,7 +2,7 @@ try:
     import pygame
 except ImportError:
     pygame = None
-pygame = None
+
 
 import Tkinter
 import lifxlan
@@ -92,7 +92,7 @@ if pygame is not None:
         def __init__(self):
             self.keycode2lifx = Keycode2Lifx()
             pygame.init()
-            pygame.display.set_mode((100, 100))
+            pygame.display.set_mode((300, 200))
         def run(self):
             """Listen to keys and send them to all lifx bulbs"""
             while True:
