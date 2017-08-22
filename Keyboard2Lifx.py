@@ -33,18 +33,18 @@ class Keyname2Lifx:
         }
         #Map the keys to colors.
         self.keymap = {
-            'w'         : "red"         ,
-            'a'         : "orange"      ,
-            's'         : "yellow"      ,
-            'd'         : "green"       ,
-            'f'         : "cyan"        ,
-            'g'         : "purple"      ,
-            'm'         : "purple"      ,
-            'up'        : "pink"        ,
-            'down'      : "blue"        ,
-            'left'      : "cold_white"  ,
-            'right'     : "warm_white"  ,
-            'space'     : "gold"        ,
+            'w'         :   "cyan"        ,
+            'a'         :   "pink"        ,
+            's'         :   "blue"        ,
+            'd'         :   "cold_white"  ,
+            'f'         :   "warm_white"  ,
+            'g'         :   "gold"        ,
+            'm'         :   "gold"        ,
+            'up'        :   "red"         ,
+            'down'      :   "purple"      ,
+            'left'      :   "green"       ,
+            'right'     :   "orange"      ,
+            'space'     :   "yellow"      
         }
 
     def _keyname_to_color(self,key_name):
